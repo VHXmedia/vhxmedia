@@ -141,13 +141,11 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
         const isParticulier = particulierRadio.checked;
         const isEmpty = bedrijfInput.value.trim() === "";
 
-        // Geen keuze → geen tekst
         if (noChoice) {
             bedrijfWrapper.classList.remove("show-optional");
             return;
         }
 
-        // Particulier + leeg → toon "optioneel"
         if (isParticulier && isEmpty) {
             bedrijfWrapper.classList.add("show-optional");
         } else {
@@ -184,15 +182,17 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
 
     // Hidden fields invullen vóór verzenden
     contactForm.addEventListener("submit", function () {
-        // Diensttype
-        const dienst = document.querySelector('input[name="service"]:checked');
+
+        // Diensttype (uit het DUMMY formulier!)
+        const dienst = document.querySelector('#price-form input[name="service"]:checked');
         document.getElementById("hidden-diensttype").value = dienst ? dienst.value : "";
 
-        // Duurtijd
-        document.getElementById("hidden-duurtijd").value = document.getElementById("duration-input").value;
+        // Duurtijd (uit het DUMMY formulier!)
+        document.getElementById("hidden-duurtijd").value =
+            document.getElementById("duration-input").value;
 
-        // Extra opties
-        const extras = [...document.querySelectorAll('input[name="extra"]:checked')]
+        // Extra opties (uit het DUMMY formulier!)
+        const extras = [...document.querySelectorAll('#price-form input[name="extra"]:checked')]
             .map(x => x.value)
             .join(", ");
         document.getElementById("hidden-extra").value = extras;
@@ -201,5 +201,5 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
         const prijs = calculatePrice();
         document.getElementById("hidden-price").value = `€${prijs},-`;
     });
-
 }
+
