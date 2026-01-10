@@ -91,7 +91,6 @@ button.addEventListener("click", (event) => {
             document.querySelector(".overlay-box").style.transform = "scale(1)";
 
             setTimeout(() => {
-                form.reset();
                 calculatePrice();
             }, 300);
 
@@ -202,4 +201,5 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
         const prijs = calculatePrice();
         document.getElementById("hidden-price").value = `€${prijs},-`;
     });
+
 }
