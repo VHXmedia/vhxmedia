@@ -123,6 +123,16 @@ const bedrijfInput = document.getElementById("bedrijf");
 const bedrijfWrapper = document.querySelector(".input-wrapper");
 const contactForm = document.querySelector(".contact-form");
 
+// 🔹 TEST OF HET FORM BESTAAT
+console.log("contactForm:", contactForm);
+
+// 🔹 TEST OF SUBMIT EVENT WORDT AFGEVUREN
+if (contactForm) {
+    contactForm.addEventListener("submit", function(e){
+        console.log("Form is being submitted!");
+    });
+}
+
 // Safety check
 if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
 
@@ -196,3 +206,4 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
         // 🚀 GEEN preventDefault → FormSubmit stuurt mail
     });
 }
+
