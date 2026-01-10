@@ -1,9 +1,9 @@
-/* RESET */
 * {
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     max-width: 100vw;
     overflow-x: hidden;
     margin: 0;
@@ -13,14 +13,12 @@ html, body {
     color: #1e3d2f;
 }
 
-/* VARIABLES */
 :root {
     --dark-green: #1e3d2f;
     --light-beige: #f5f0e6;
     --white: #ffffff;
 }
 
-/* NAVBAR */
 .navbar {
     position: fixed;
     top: 0;
@@ -34,7 +32,7 @@ html, body {
     z-index: 1000;
 }
 
-.navbar > * {
+.navbar>* {
     flex: 1;
     text-align: center;
 }
@@ -47,6 +45,7 @@ html, body {
     margin: 0;
     padding: 0;
     list-style: none;
+    z-index: 1;
 }
 
 .nav-item {
@@ -67,14 +66,16 @@ html, body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
+    display: block;
+    pointer-events: auto;
 }
 
 .nav-logo img {
     height: 80px;
+    max-height: 100%;
     display: block;
 }
 
-/* HERO SECTION */
 .hero {
     position: relative;
     height: 100vh;
@@ -88,47 +89,7 @@ html, body {
     justify-content: flex-start;
     align-items: flex-start;
     color: var(--dark-green);
-
-    /* BELANGRIJK: stacking context */
     z-index: 0;
-}
-
-/* NEWSPAPER TEXTURE */
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("../images/newspaper.jpg");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.25;
-
-    /* boven de hero-background */
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* FACE IMAGE */
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("../images/homeface.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    /* boven newspaper */
-    z-index: 2;
-    pointer-events: none;
-}
-
-/* HERO CONTENT */
-.hero h1,
-.hero-square,
-.hero-bottom {
-    position: relative;
-    z-index: 3; /* boven alle pseudo-elementen */
 }
 
 .hero h1 {
@@ -138,6 +99,9 @@ html, body {
     transform: translateY(-50%);
     margin: 0;
     font-size: clamp(2rem, 5vw, 4rem);
+    text-align: left;
+    color: var(--dark-green);
+    z-index: 5;
     text-shadow: 4px 2px 4px rgba(245, 240, 230, 0.6);
 }
 
@@ -150,14 +114,16 @@ html, body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    width: auto;
     text-align: center;
+    z-index: 4;
 }
 
 .hero-bottom p {
     margin: 0;
     color: #fff;
     font-size: 1.18rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
 }
 
 .arrow {
@@ -165,40 +131,72 @@ html, body {
     cursor: pointer;
     animation: bounce 1.5s infinite;
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6);
+    position: static;
+    margin: 0;
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(10px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
 }
 
-/* HERO SQUARE */
-.hero-square {
+.hero::before {
+    content: "";
     position: absolute;
-    top: 37%;
-    right: 7%;
-    width: 300px;
-    height: 250px;
-    background-color: rgba(245, 240, 230, 0.8);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
+    inset: 0;
+    background-image: url("../images/newspaper.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    /* werkt nu WEL zichtbaar */
+    z-index: 1;
+    /* BELANGRIJK: boven de hero-background */
+    pointer-events: none;
 }
 
-/* CONTENT SECTIONS */
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("../images/homeface.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 3;
+    pointer-events: none;
+}
+
 .content-section {
     position: relative;
+    top: 0;
+    left: 0;
     width: 100%;
     min-height: 100vh;
     padding: 4em;
     background-color: var(--white);
-    z-index: 10;
+    z-index: 2;
+    transition: transform 0.6s ease, opacity 0.5s ease;
 }
 
-/* WORK GRID */
+.content-section.slide-in {
+    transform: translateY(-100vh);
+}
+
+#work.content-section h2 {
+    text-align: center;
+    font-size: 4em;
+    font-family: sans-serif;
+    margin: 0 auto 1em auto;
+}
+
 .work-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -222,6 +220,7 @@ html, body {
     object-fit: cover;
     border-radius: 16px;
     transition: transform 0.4s ease;
+    display: block;
 }
 
 .work-item:hover img {
@@ -230,7 +229,10 @@ html, body {
 
 .overlay {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
@@ -243,10 +245,10 @@ html, body {
     color: var(--light-beige);
     font-size: 2em;
     font-weight: bold;
+    text-align: center;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* BACK TO TOP */
 .back-to-top {
     position: fixed;
     bottom: 20px;
@@ -268,7 +270,63 @@ html, body {
     background-color: #2f5d45;
 }
 
-/* SOCIAL LINKS */
+.hero-square {
+    position: absolute;
+    top: 37%;
+    right: 7%;
+    width: 300px;
+    height: 250px;
+    background-color: rgba(245, 240, 230, 0.8);
+    border-radius: 20px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.hero-rect {
+    width: 100%;
+    height: 100%;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.hero-rect-text {
+    position: relative;
+    top: -6px;
+    display: block;
+    margin-bottom: 20px;
+    color: var(--dark-green);
+    font-size: 0.95rem;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.hero-rect-button {
+    display: inline-block;
+    background-color: var(--dark-green);
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.hero-rect-button:hover {
+    background-color: #2f5d45;
+    transform: translateY(-5px) scale(1.05);
+}
+
 .social-links {
     position: absolute;
     top: 50%;
@@ -277,11 +335,18 @@ html, body {
     display: flex;
     gap: 2rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
     z-index: 1000;
+}
+
+.social-links a {
+    display: block;
 }
 
 .social-links img {
     width: 24px;
     height: 24px;
     cursor: pointer;
+    pointer-events: auto;
 }
