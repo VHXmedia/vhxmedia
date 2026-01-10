@@ -155,8 +155,10 @@ body {
     background-image: url("../images/newspaper.jpg");
     background-size: cover;
     background-position: center;
-    opacity: 0.2;
+    opacity: 0.25;
+    /* werkt nu WEL zichtbaar */
     z-index: 1;
+    /* BELANGRIJK: boven de hero-background */
     pointer-events: none;
 }
 
@@ -171,7 +173,6 @@ body {
     z-index: 3;
     pointer-events: none;
 }
-
 .content-section {
     position: relative;
     top: 0;
@@ -348,3 +349,4 @@ body {
     cursor: pointer;
     pointer-events: auto;
 }
+
