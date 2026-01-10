@@ -65,7 +65,9 @@ const bedrijfInput = document.getElementById("bedrijf");
 const bedrijfWrapper = document.querySelector(".input-wrapper");
 const contactForm = document.querySelector(".contact-form");
 
-// Functies voor overlay
+// ===============================
+// FUNCTIES VOOR BEDRIJF VERPLICHT/OPTIONEEL
+// ===============================
 function updateBedrijfVerplichtheid() {
     bedrijfInput.required = bedrijfRadio.checked;
 }
@@ -106,6 +108,16 @@ button.addEventListener("click", (event) => {
     const prijs = calculatePrice();
     document.getElementById("overlay-price").textContent = `€${prijs},-`;
 
+    // 🔹 Vul hidden fields ALVORENS overlay verschijnt
+    const dienst = document.querySelector('#price-form input[name="service"]:checked');
+    document.getElementById("hidden-diensttype").value = dienst ? dienst.value : "";
+    document.getElementById("hidden-duurtijd").value = document.getElementById("duration-input").value;
+    const extras = [...document.querySelectorAll('#price-form input[name="extra"]:checked')]
+        .map(x => x.value)
+        .join(", ");
+    document.getElementById("hidden-extra").value = extras;
+    document.getElementById("hidden-price").value = `€${prijs},-`;
+
     // Fade priceSection uit
     priceSection.style.opacity = "0";
     setTimeout(() => {
@@ -120,23 +132,13 @@ button.addEventListener("click", (event) => {
         }, 10);
     }, 200);
 
-    // 🔹 Voeg submit listener NU toe (pas als overlay zichtbaar)
+    // 🔹 Voeg submit listener toe
     if (contactForm && !contactForm.dataset.listenerAdded) {
         contactForm.addEventListener("submit", function(e){
             console.log("Form is being submitted!");
 
-            // Vul hidden fields
-            const dienst = document.querySelector('#price-form input[name="service"]:checked');
-            document.getElementById("hidden-diensttype").value = dienst ? dienst.value : "";
-            document.getElementById("hidden-duurtijd").value = document.getElementById("duration-input").value;
-            const extras = [...document.querySelectorAll('#price-form input[name="extra"]:checked')]
-                .map(x => x.value)
-                .join(", ");
-            document.getElementById("hidden-extra").value = extras;
-            document.getElementById("hidden-price").value = `€${calculatePrice()},-`;
-
             // Bedrijf verplicht indien nodig
-            bedrijfInput.required = bedrijfRadio.checked;
+            updateBedrijfVerplichtheid();
 
             // Validatie
             if (!contactForm.checkValidity()) {
@@ -145,13 +147,13 @@ button.addEventListener("click", (event) => {
                 return;
             }
 
-            // 🔹 Log alle data die FormSubmit zou ontvangen
+            // Log alle data die FormSubmit zou ontvangen
             console.log("Form data ready to send:");
             [...contactForm.elements].forEach(el => {
                 if (el.name) console.log(el.name, "=", el.value);
             });
 
-            // GEEN e.preventDefault() → FormSubmit stuurt mail
+            // GEEN e.preventDefault() → FormSubmit stuurt mail automatisch
         });
         contactForm.dataset.listenerAdded = "true";
     }
