@@ -1,0 +1,406 @@
+:root {
+    --dark-green: rgb(30, 61, 47);
+    --light-beige: #f5f0e6;
+    --white: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--light-beige);
+    color: var(--dark-green);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--dark-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 2em;
+    z-index: 1000;
+}
+
+.navbar>* {
+    flex: 1;
+    text-align: center;
+}
+
+.navbar>.nav-links {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2em;
+}
+
+.nav-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 1;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #ccc;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: var(--white);
+    font-weight: bold;
+}
+
+.nav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-99%);
+    z-index: 2;
+    display: block;
+    pointer-events: auto;
+}
+
+.nav-logo img {
+    height: 80px;
+    max-height: 100%;
+    display: block;
+}
+
+.price-section {
+    padding: 120px 2em 4em;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+.social-links {
+    position: absolute;
+    top: 50%;
+    right: 6rem;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    z-index: 1000;
+}
+
+.social-links a {
+    display: block;
+}
+
+.social-links img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.prijs-titel {
+    margin-bottom: -20px;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    margin-top: -30px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+}
+
+.prijs-comment {
+    text-align: center;
+}
+
+.diensttype,
+.duurtijd,
+.extra_opties {
+    color: var(--dark-green);
+    font-size: larger;
+    font-weight: 600;
+    display: flex;
+    padding-bottom: 7px;
+}
+
+.extra_opties {
+    padding-top: 20px;
+}
+
+.duurtijd {
+    padding-top: 30px;
+}
+
+.diensttype {
+    padding-top: 30px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#price-output {
+    padding-top: 50px;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.form-block-duration {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.duration-input {
+    width: 50px;
+    height: 20px;
+    display: flex;
+    border-radius: 3px;
+    margin-left: 15px;
+    margin-top: 30px;
+    border: 2px solid var(--dark-green)
+}
+
+.price-overlay {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -47%);
+    background: transparent;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-box {
+    position: relative;
+    background: var(--dark-green);
+    color: var(--light-beige);
+    border-radius: 15px;
+    padding: 2rem;
+    width: 35rem;
+    height: 32rem;
+    text-align: center;
+    transform: scale(0.97);
+    opacity: 0;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+#get-price-button {
+    margin-top: 5rem;
+    border-style: none;
+    border-radius: 4px;
+    color: var(--light-beige);
+    background-color: var(--dark-green);
+    width: 13rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+#get-price-button:hover {
+    background-color: rgb(49, 82, 67);
+}
+
+.close-overlay {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: var(--light-beige);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-overlay:hover {
+    color: #ffffff;
+}
+
+#overlay-price {
+    font-size: 2rem;
+    margin-top: -0.5rem;
+}
+
+.price-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: -1rem;
+}
+
+.info-icon {
+    position: absolute;
+    top: -6px;
+    right: -12px;
+    font-size: 0.75em;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.info-icon:hover {
+    color: #fff;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: -10px;
+    right: -230px;
+    width: 200px;
+    background: var(--light-beige);
+    color: var(--dark-green);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.75em;
+    line-height: 1.3em;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.info-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.contact-details {
+    display: grid;
+    grid-template-columns: 140px auto;
+    gap: 12px 20px;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 40px;
+}
+
+.contact-form {
+    margin-left: 40px;
+}
+
+.contact-fields {
+    display: grid;
+    grid-template-columns: 120px 250px;
+    gap: 12px 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.field-row {
+    display: contents;
+}
+
+.contact-fields label {
+    text-align: right;
+    font-weight: 600;
+}
+
+.contact-fields input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.get-quote-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 24px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.disclaimer {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #aaa;
+    text-align: center;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-details div {
+    display: contents;
+}
+
+.contact-details input {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.get-quote-button {
+    padding: 10px 20px;
+    background-color: #1a1a1a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.disclaimer {
+    font-size: 0.75rem;
+    color: #888;
+    max-width: 400px;
+    line-height: 1.4;
+}
+
+#bedrijf:not([required])::after {
+    content: "optioneel";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+/* Zorg dat de wrapper dezelfde breedte heeft als een normaal inputveld */
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Input binnen de wrapper moet de volledige breedte innemen */
+.input-wrapper input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-wrapper::after {
+    content: "optioneel";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 0.8rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Alleen tonen wanneer particulier is gekozen en het veld niet required is */
+#bedrijf:not([required])+.input-wrapper::after,
+.input-wrapper.show-optional::after {
+    opacity: 1;
+}
