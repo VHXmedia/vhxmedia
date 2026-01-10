@@ -1,4 +1,3 @@
-
 function getNavbarHeight() {
     const nav = document.querySelector('.navbar');
     return nav ? nav.offsetHeight : 0;
@@ -64,7 +63,7 @@ function resetHero() {
     }
 }
 
-const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
 document.querySelectorAll('.nav-item').forEach(link => {
     const linkPage = link.getAttribute('href').split('#')[0];
@@ -75,7 +74,9 @@ document.querySelectorAll('.nav-item').forEach(link => {
     }
 });
 
-if (currentPage === 'home.html') {
+// ⭐ FIXED: hero stacking moet draaien op index.html, niet home.html
+if (currentPage === 'index.html' || currentPage === '') {
+
     document.addEventListener('DOMContentLoaded', () => {
         enableHeroBackgroundStacking();
 
@@ -94,8 +95,7 @@ if (currentPage === 'home.html') {
         const scrolled = window.scrollY;
         hero.style.backgroundPosition = `center ${Math.max(0, 50 - scrolled * 0.0)}%`;
     });
+
 } else {
     resetHero();
 }
-
-
