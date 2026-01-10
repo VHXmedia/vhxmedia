@@ -1,3 +1,6 @@
+// ===============================
+// PRIJS BEREKENING
+// ===============================
 const calculatePrice = () => {
     const wedding_active = document.getElementById("service-wedding").checked;
     const event_active = document.getElementById("service-event").checked;
@@ -25,42 +28,39 @@ const calculatePrice = () => {
 };
 
 
+// ===============================
+// DUURTIJD INPUT SANITIZE
+// ===============================
 document.getElementById("duration-input").addEventListener("input", () => {
     const input = document.getElementById("duration-input");
 
-    // Alleen cijfers toelaten
     let raw = input.value.replace(/\D/g, "");
 
-    // Als leeg: laat leeg tijdens typen
     if (raw === "") {
         input.value = "";
-        calculatePrice();
         return;
     }
 
-    // Omzetten naar getal
     let num = parseInt(raw, 10);
-
-    // Minstens 1 uur
     if (num < 1) num = 1;
-
-    // Max 99 uur (optioneel)
     if (num > 99) num = 99;
 
     input.value = String(num);
-
-    calculatePrice();
 });
 
 
-// Recalculate on all input changes
-document.querySelectorAll("input").forEach(input => {
+// ===============================
+// HERBEREKEN BIJ WIJZIGINGEN
+// ===============================
+document.querySelectorAll("#price-form input").forEach(input => {
     input.addEventListener("input", calculatePrice);
     input.addEventListener("change", calculatePrice);
 });
 
 
-// Overlay logic
+// ===============================
+// OVERLAY LOGICA
+// ===============================
 const button = document.getElementById("get-price-button");
 const overlay = document.querySelector(".price-overlay");
 const priceSection = document.querySelector(".price-section");
@@ -81,7 +81,6 @@ button.addEventListener("click", (event) => {
 
     setTimeout(() => {
         priceSection.style.display = "none";
-
         overlay.style.display = "flex";
         overlay.style.opacity = "0";
 
@@ -89,19 +88,15 @@ button.addEventListener("click", (event) => {
             overlay.style.opacity = "1";
             document.querySelector(".overlay-box").style.opacity = "1";
             document.querySelector(".overlay-box").style.transform = "scale(1)";
-
-            setTimeout(() => {
-                calculatePrice();
-            }, 300);
-
         }, 10);
     }, 200);
 });
 
 
-const closeButton = document.querySelector(".close-overlay");
-
-closeButton.addEventListener("click", () => {
+// ===============================
+// OVERLAY SLUITEN
+// ===============================
+document.querySelector(".close-overlay").addEventListener("click", () => {
     overlay.style.opacity = "0";
     document.querySelector(".overlay-box").style.opacity = "0";
     document.querySelector(".overlay-box").style.transform = "scale(0.97)";
@@ -119,19 +114,19 @@ closeButton.addEventListener("click", () => {
 });
 
 
-// === CONTACTFORMULIER IN OVERLAY ===
-
-// Elementen
+// ===============================
+// CONTACTFORM (FORM SUBMIT)
+// ===============================
 const particulierRadio = document.getElementById("type-particulier");
 const bedrijfRadio = document.getElementById("type-bedrijf");
 const bedrijfInput = document.getElementById("bedrijf");
 const bedrijfWrapper = document.querySelector(".input-wrapper");
 const contactForm = document.querySelector(".contact-form");
 
-// Safety
+// Safety check
 if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
 
-    // Bedrijfsnaam verplicht bij "Bedrijf"
+    // Bedrijfsnaam verplicht indien "Bedrijf"
     function updateBedrijfVerplichtheid() {
         bedrijfInput.required = bedrijfRadio.checked;
     }
@@ -153,17 +148,6 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
         }
     }
 
-    // Validatie bij submit
-    contactForm.addEventListener("submit", function (e) {
-        const klanttypeGekozen = particulierRadio.checked || bedrijfRadio.checked;
-
-        if (!klanttypeGekozen || !contactForm.checkValidity()) {
-            e.preventDefault();
-            contactForm.reportValidity();
-        }
-    });
-
-    // Event listeners
     particulierRadio.addEventListener("change", () => {
         updateBedrijfVerplichtheid();
         updateOptioneelLabel();
@@ -176,30 +160,39 @@ if (contactForm && particulierRadio && bedrijfRadio && bedrijfInput) {
 
     bedrijfInput.addEventListener("input", updateOptioneelLabel);
 
-    // Initial state
     updateBedrijfVerplichtheid();
     updateOptioneelLabel();
 
-    // Hidden fields invullen vóór verzenden
-    contactForm.addEventListener("submit", function () {
+    // ===============================
+    // ENIGE SUBMIT LISTENER
+    // ===============================
+    contactForm.addEventListener("submit", function (e) {
 
-        // Diensttype (uit het DUMMY formulier!)
+        // 🔹 Hidden fields invullen
         const dienst = document.querySelector('#price-form input[name="service"]:checked');
         document.getElementById("hidden-diensttype").value = dienst ? dienst.value : "";
 
-        // Duurtijd (uit het DUMMY formulier!)
         document.getElementById("hidden-duurtijd").value =
             document.getElementById("duration-input").value;
 
-        // Extra opties (uit het DUMMY formulier!)
         const extras = [...document.querySelectorAll('#price-form input[name="extra"]:checked')]
             .map(x => x.value)
             .join(", ");
         document.getElementById("hidden-extra").value = extras;
 
-        // Prijsschatting
         const prijs = calculatePrice();
         document.getElementById("hidden-price").value = `€${prijs},-`;
+
+        // 🔹 Bedrijf verplicht indien nodig
+        bedrijfInput.required = bedrijfRadio.checked;
+
+        // 🔹 Validatie
+        if (!contactForm.checkValidity()) {
+            e.preventDefault();
+            contactForm.reportValidity();
+            return;
+        }
+
+        // 🚀 GEEN preventDefault → FormSubmit stuurt mail
     });
 }
-
