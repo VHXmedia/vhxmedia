@@ -13,6 +13,18 @@ body {
     color: #1e3d2f;
 }
 
+body::after {
+  content: "Build: main.jpg actief";
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: #000;
+  color: #fff;
+  padding: 5px;
+  font-size: 10px;
+  z-index: 9999;
+}
+
 :root {
     --dark-green: #1e3d2f;
     --light-beige: #f5f0e6;
@@ -350,6 +362,7 @@ body {
     cursor: pointer;
     pointer-events: auto;
 }
+
 
 
 
