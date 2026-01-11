@@ -152,7 +152,7 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("../images/newspaper.jpg");
+    /* background-image: url("../images/newspaper.jpg"); */
     background-size: cover;
     background-position: center;
     opacity: 0.25;
@@ -350,6 +350,7 @@ body {
     cursor: pointer;
     pointer-events: auto;
 }
+
 
 
 
