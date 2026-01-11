@@ -13,18 +13,6 @@ body {
     color: #1e3d2f;
 }
 
-body::after {
-  content: "Build: main.jpg actief";
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  background: #000;
-  color: #fff;
-  padding: 5px;
-  font-size: 10px;
-  z-index: 9999;
-}
-
 :root {
     --dark-green: #1e3d2f;
     --light-beige: #f5f0e6;
@@ -92,7 +80,7 @@ body::after {
     position: relative;
     height: 100vh;
     width: 100%;
-    background-image: url("../images/main.jpg");
+    background-image: url("../images/home%20bg.jpg");
     background-size: cover;
     background-position: center;
     padding: 4vw;
@@ -362,6 +350,7 @@ body::after {
     cursor: pointer;
     pointer-events: auto;
 }
+
 
 
 
